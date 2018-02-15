@@ -19,14 +19,20 @@ int main(int argc, char const *argv[]) {
 	unsigned char id;
 	unsigned int length;
 	unsigned char payload[length];
+	unsigned int CK_A = 0;
+	unsigned int CK_B = 0;
 
 	while(fread(&id,sizeof(char),1,fp)){
+
+
 		if (id == 0xb5)  
 		{
 		fread(&id,sizeof(char),1,fp);
 			if (id == 0x62)
 			{
 				fread(&id,sizeof(char),1,fp);
+				//CK_A += id;
+				//CK_B += CK_A;  
 				// début d'un nouveau message
 
 				if (id == 0x01)  
@@ -63,6 +69,18 @@ int main(int argc, char const *argv[]) {
 
 
 					}
+					/*
+					fread(&id,sizeof(char),1,fp);
+					if (CK_A == id)
+					{
+						printf("%s\n", " CK_A OK");
+					}
+					fread(&id,sizeof(char),1,fp);
+					if (CK_B == id)
+					{
+						printf("%s\n", " CK_B OK");
+					}
+					*/
 				}	
 			}	
 		}	
@@ -72,12 +90,5 @@ int main(int argc, char const *argv[]) {
 	fclose(fp);
 	fclose(fpw);
 
-	unsigned int month = 0x04;
-	unsigned int day   = 0x01;
-	unsigned int hour  = 0x12;
-
-	int res = month | day << 8 | hour << 16;
-
-	printf("%i\n", res >> 8);
 	return 0;
 }
